@@ -4,53 +4,60 @@ const loadDrinks = (name) => {
     .then((data) => DisplayDrinks(data.drinks))
     .catch((err) => console.log(err));
 };
-loadDrinks("margarita");
-// const drinkSearch = () => {
-//   const drinkInput = document.getElementById("drink-input").value;
-//   const defaultValue = "margarita";
-//   if (drinkInput) loadDrinks(drinkInput);
-//   else loadDrinks(defaultValue);
-//   console.log(drinkInput);
-// };
 
-// //////
+window.onload = () => {
+  loadDrinks("margarita");
+};
+
+// Drinks Container By id
+const drinksContainer = document.getElementById("drinks-container");
+// Search Drinks
+const drinkSearch = () => {
+  const drinkInput = document.getElementById("drink-input").value;
+  if (drinkInput.length > 0) drinksContainer.innerText = "";
+  if (drinkInput) loadDrinks(drinkInput);
+  document.getElementById("drink-input").value = "";
+};
+
+// Show Drinks
 const DisplayDrinks = (data) => {
-  const drinksContainer = document.getElementById("drinks-container");
-  data.forEach((drink) => {
-    const div = document.createElement("div");
-    div.classList.add("co-12");
-    div.classList.add("col-md-6");
-    div.classList.add("col-lg-4");
-    div.innerHTML = `
-            <div class="card">
-                <img src="${
-                  drink.strDrinkThumb
-                }" class="card-img-top" alt="Image">
-                <div class="card-body">
-                    <h5 class="card-title">Name: ${drink.strGlass}</h5>
-                    <p class="card-text"><b>Category:</b> ${
-                      drink.strCategory
-                    }</p>
-                    <p class="card-text">${drink.strInstructions.slice(
-                      0,
-                      15
-                    )}...</p>
-                    <button onclick="handleAddCart('${drink.strGlass}',
-                      '${drink.strDrinkThumb}')"
-                    class="btn btn-outline-dark">Add To Cart</button>
-                    <button onclick="handleModal('${
-                      drink.idDrink
-                    }')" class="btn btn-outline-success"
-                    data-bs-toggle="modal" data-bs-target="#exampleModal"
-                    >Details</button>
-                </div>
-            </div>
-        `;
+  if (data) {
+    data.forEach((drink) => {
+      const div = document.createElement("div");
+      div.classList.add("co-12");
+      div.classList.add("col-md-6");
+      div.classList.add("col-xl-4");
+      div.innerHTML = `
+              <div class="card">
+                  <img src="${
+                    drink.strDrinkThumb
+                  }" class="card-img-top" alt="Image">
+                  <div class="card-body">
+                      <h5 class="card-title">Name: ${drink.strGlass}</h5>
+                      <p class="card-text"><b>Category:</b> ${
+                        drink.strCategory
+                      }</p>
+                      <p class="card-text"><b>Instructions:</b> ${drink.strInstructions.slice(
+                        0,
+                        15
+                      )}...</p>
+                      <button onclick="handleAddCart('${drink.strGlass}',
+                        '${drink.strDrinkThumb}')"
+                      class="btn btn-outline-dark">Add To Cart</button>
+                      <button onclick="handleModal('${
+                        drink.idDrink
+                      }')" class="btn btn-outline-success"
+                      data-bs-toggle="modal" data-bs-target="#exampleModal"
+                      >Details</button>
+                  </div>
+              </div>
+          `;
 
-    drinksContainer.appendChild(div);
-    console.log(drink);
-  });
-  // console.log(drinksContainer);
+      drinksContainer.appendChild(div);
+    });
+  } else {
+    drinksContainer.innerHTML = `<h1 class="fs-2 d-flex justify-content-center align-items-center">Sorry! No Drinks found!!!</h1>`;
+  }
 };
 
 const countOrder = document.getElementById("total-cart").innerText;
@@ -63,20 +70,13 @@ const handleAddCart = (name, image) => {
     document.getElementById("total-cart").innerText = countCart;
 
     const cartContainer = document.getElementById("cart-container");
-    const div = document.createElement("div");
-    div.classList.add("d-flex");
-    div.classList.add("justify-content-evenly");
-    div.classList.add("align-items-center");
-    div.classList.add("my-2");
-    div.classList.add("py-2");
-    div.classList.add("border-bottom");
-    div.innerHTML = `
-    <h6>${countCart}</h6>
-    <img class="rounded-pill" src="${image}" class="card-img-top" alt="Image">
-    <h6>${name.slice(0, 15)}..</h6>
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <th scope="row">${countCart}</th>
+      <td><img class="rounded-pill" src="${image}" class="card-img-top" alt="Image"></td>
+      <td>${name.slice(0, 15)}..</td>
   `;
-
-    cartContainer.appendChild(div);
+    cartContainer.appendChild(tr);
   } else alert("Sorry!! You have reached the maximum limit!");
 };
 
@@ -91,8 +91,12 @@ const handleModal = (id) => {
 const drinkDetailsModal = (data) => {
   const modalTitle = document.getElementById("modal-title");
   const modalInfo = document.getElementById("modal-info");
-  modalTitle.innerText = `${data.strGlass}`;
+  modalTitle.innerText = `Name: ${data.strGlass}`;
   modalInfo.innerHTML = `
-    <img class="img-fluid w-75 text-center" src="${data.strDrinkThumb}" class="card-img-top" alt="Image">
+      <h4>Details:</h4>
+      <img class="img-fluid" src="${data.strDrinkThumb}" alt="Image">
+      <h5 class="mt-2">Category: ${data.strCategory}</h5>
+      <h5 class="mt-2">Alcoholic: ${data.strAlcoholic}</h5>
+      <p class="mt-2">${data.strInstructions}</p>
   `;
 };
