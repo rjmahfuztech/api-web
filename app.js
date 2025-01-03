@@ -93,8 +93,8 @@ const drinkDetailsModal = (data) => {
   const modalInfo = document.getElementById("modal-info");
   modalTitle.innerText = `Name: ${data.strGlass}`;
   modalInfo.innerHTML = `
-      <h4>Details:</h4>
       <img class="img-fluid" src="${data.strDrinkThumb}" alt="Image">
+      <h4>Details:</h4>
       <h5 class="mt-2">Category: ${data.strCategory}</h5>
       <h5 class="mt-2">Alcoholic: ${data.strAlcoholic}</h5>
       <p class="mt-2">${data.strInstructions}</p>
