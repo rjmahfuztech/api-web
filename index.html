@@ -18,20 +18,62 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body class="container-fluid">
-    <div class="d-flex justify-content-center mt-4 mb-3">
+    <div class="d-flex justify-content-center mt-5 mb-2">
       <input
         type="email"
         class="form-control w-50"
         id="drink-input"
         placeholder="Search your drink..."
       />
-      <button type="button" class="btn ms-2 btn-outline-success">Search</button>
+      <button
+        onclick="drinkSearch()"
+        type="button"
+        class="btn ms-2 btn-outline-success"
+      >
+        Search
+      </button>
     </div>
     <section class="row">
       <div id="drinks-container" class="col-8 col-md-7 col-lg-8 row g-3"></div>
-      <div class="col-4 col-md-5 col-lg-4">This is cart</div>
+      <div
+        class="col-4 col-md-5 col-lg-4 shadow-sm py-3 px-1 mt-4 bg-body rounded fs-6 fs-md-3"
+      >
+        <h3 class="text-center pb-2 border-bottom">
+          Total Cart: <span id="total-cart">0</span>
+        </h3>
+        <div
+          class="d-flex justify-content-around shadow-sm py-2 px-1 bg-body rounded"
+        >
+          <h5>Sl</h5>
+          <h5>Img</h5>
+          <h5>Name</h5>
+        </div>
+        <div id="cart-container"></div>
+      </div>
     </section>
-
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modal-title"></h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div id="modal-info" class="modal-body"></div>
+        </div>
+      </div>
+    </div>
     <script src="app.js"></script>
   </body>
 </html>
